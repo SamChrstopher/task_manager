@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import React, {useContext, useState, useCallback} from "react";
 import { TaskContext } from "../context/TaskContext";
 import AddButton from "./AddButton";
 
@@ -9,12 +9,17 @@ const TaskInput : React.FC = ()=>{
         throw new Error("task context not found!")
     }
     const {dispatch} = context
-    const handleAdd = ()=>{
+    //Without use Callback, handle add would be a new function on render even if the input didn't change
+    //in the state.
+    //We're trying to restrict the unncessary rendering of the child
+    //Just the dependencies are considered.
+    const handleAdd = useCallback(()=>{
         if (input.trim()){
             dispatch({type:'ADD', payload: input})
             setInput("")
         }
-    }
+    },[input, dispatch])
+
     return(
         <div>
             <input value={input} onChange={(e)=>setInput(e.target.value)} placeholder="Enter a Task" />

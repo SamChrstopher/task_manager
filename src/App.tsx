@@ -33,10 +33,23 @@ const App: React.FC = ()=> {// React component
 
     // useEffect() for update
     // It saves the tasks to local storage whenever the tasks state changes.
-    useEffect(() => {
-        localStorage.setItem("tasks", JSON.stringify(tasks))
-    }, [tasks])
+    
+    
+    // useEffect(() => {
+    //     localStorage.setItem("tasks", JSON.stringify(tasks))
+    // }, [tasks])
 
+
+    // Sync with local storage on state update
+    const [storedTask,setStoredTask] = useLocalStorage<Task[]>('tasks',[])
+    useEffect(()=>{
+        setStoredTask(tasks)
+    },[tasks])
+
+
+
+
+    
     //useLayoutEffect() for scroll of DOM
     // It scrolls to the bottom of the task list whenever a new task is added.
     const listEndRef = useRef<HTMLDivElement | null>(null)
@@ -76,7 +89,7 @@ const App: React.FC = ()=> {// React component
                 {tasks.map(task => (<li key={task.id}>{task.task}</li>))}
             </ul> */}
 
-            <TaskList tasks={tasks} />
+            <TaskList/>
 
         </div>
     )
