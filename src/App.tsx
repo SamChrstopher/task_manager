@@ -1,73 +1,85 @@
-import React, { useState, useEffect, useLayoutEffect, useRef } from "react";
+// A simple task manager application using React with TypeScript.
+// This application allows users to add tasks, which are stored in local storage.
+import React, { useState, useLayoutEffect, useRef, useEffect } from "react";
 import { Task } from "./types/task";
-import TaskInput from "./components/TaskInput";
-import TaskButton from "./components/TaskButton";
+import AddButton from "./components/AddButton";
 import TaskList from "./components/TaskList";
+import { useLocalStorage } from "./hooks/useLocalStorage";
 
-function App() {
-  //State to manage each the tasks inside the array
-  const [tasks, setTasks] = useState<Task[]>([]);
-  //state to manage the input data from the input field
-  const [input, setInput] = useState("");
-  //Function to add new task to the array
-  const addTask = () => {
-    //Checking if the input is empty or not
-    if (input.trim()) {
-      //Adding the new tasks with the unique id in the existing array
-      setTasks((prev) => [
-        ...prev,
-        { id: Date.now(), task: input, completed: false },
-      ]);
-      //Resetting the input field to empty
-      setInput("");
+
+const App: React.FC = ()=> {// React component
+    // State to manage tasks and input
+    const [tasks, setTasks] = useState<Task[]>([])
+    const [input, setInput] = useState('')
+    // Function to add a new task
+    // It checks if input is not empty, then adds a new task with a unique id and resets the input field.
+    const addTask = () => {
+        if (input.trim()) {
+            setTasks(prev => [...prev, { id: Date.now(), task: input, completed: false }])
+            setInput("")
+        }
     }
-  };
-  //useEffect for mount
-  useEffect(() => {
-    //Retrieving the tasks data stored in the local storage
-    const stored = localStorage.getItem("tasks");
-    //If the data exists
-    if (stored) {
-      //Converting the data from the string to the array object
-      setTasks(JSON.parse(stored));
-    }
-  }, []);
 
-  //If dependency array is empty, it run at the start of application (onMount)
-  //If tasks are not updated.
-  //side effects to retrieve from the local storage to retrieve if only task obj exists.
+    // useEffect() for mount 
+    // It retrieves tasks from local storage when the component mounts.
+    useEffect(() => {
+        const stored = localStorage.getItem("tasks")
+        if (stored) {
+            setTasks(JSON.parse(stored))
+        }
+    }, [])
+    // if dependency array is empty, it run at the start of application (onMount)
+    // side effect to retrive from local storage to retrive if only task obj exists.
 
-  //useEffect for Update
-  useEffect(() => {
-    //First we're converting the array object into a string and storing the data
-    //in the localStorage under the key "tasks", only if the tasks dependency change.
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-  }, [tasks]);
+    // useEffect() for update
+    // It saves the tasks to local storage whenever the tasks state changes.
+    useEffect(() => {
+        localStorage.setItem("tasks", JSON.stringify(tasks))
+    }, [tasks])
 
-  //useLayoutEffect() for scroll of DOM
-  const listEndRef = useRef<HTMLDivElement | null>(null);
-  useLayoutEffect(() => {
-    if (listEndRef.current) {
-      listEndRef.current.scrollIntoView({
-        behavior: "smooth", //It smoothly renders the layout
-      });
-    }
-  }, [tasks]);
+    //useLayoutEffect() for scroll of DOM
+    // It scrolls to the bottom of the task list whenever a new task is added.
+    const listEndRef = useRef<HTMLDivElement | null>(null)
+    // useRef is used to create a mutable object that persists for the full lifetime of the component.
+    // It is initialized to null and will hold a reference to the end of the task list for scrolling purposes.
+    useLayoutEffect(() => {
+        // This effect runs after the tasks state changes, ensuring that the scroll happens after the new task is added.
+        // scrollIntoView is a method that scrolls the element into view.
+        if (listEndRef.current) {
+            listEndRef.current.scrollIntoView({
+                behavior: "smooth"
+            })
+        }
+    }, [tasks])
+    // useLayoutEffect is used to perform DOM measurements and updates before the browser has a chance to paint, ensuring a smoother user experience.
+    // This effect runs after the tasks state changes, ensuring that the scroll happens after the new task is added.
+    return (// JSX to render the task manager UI
+        <div>
+            <h1>Task Manager</h1>
+            {/* Input field to enter new tasks */}
+            {/* <input value={input} onChange={(e) => setInput(e.target.value)} /> */}
+            <input
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="Enter a Task"/>
 
-  return (
-    <div>
-      <h1>Task Manager</h1>
-      <TaskInput />
-      <TaskButton onClick={addTask} label="Add" />
-      <TaskList tasks={tasks} />
-      {/* <input value={input} onChange={(e)=>setInput(e.target.value)}/> */}
-      {/* <button onClick={addTask}>Add</button>
-            <ul>
-                {tasks.map(task=>(
-                    (<li key={task.id}>{task.task}</li>)
-                ))}
+
+
+            {/* Button to add the task */}
+            {/* <button onClick={addTask}>Add</button> */}
+            <AddButton onClick={addTask} label="Add Task" />
+
+
+
+            {/* List of tasks */}            
+            {/* <ul>
+                {tasks.map(task => (<li key={task.id}>{task.task}</li>))}
             </ul> */}
-    </div>
-  );
+
+            <TaskList tasks={tasks} />
+
+        </div>
+    )
 }
-export default App;
+// The App component is exported as the default export of the module.
+export default App

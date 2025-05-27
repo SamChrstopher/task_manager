@@ -1,82 +1,86 @@
-# Goal for the Project
-=> Built a React app with Progressive Complexity
-=> Built a Task Manager using the latest React Features
-=> Features:
-1. Functional Components using functional constructors.
-2. Using Hooks (useState, useEffect, useRef, useMemo, useCallback, useContext, useReducer)
-3. Custom Hooks
-4. Life-Cycle equivalents
-5. Error boundaries
-6. Suspence and Lazy Loading
+# 🧠 React Task Manager App
 
-## Step-by-step Plan
-Step 1.
-Objective: Create a task list where users can add tasks.
-Hooks covered: useState()
-Implementation:
-1. Setup a Basic React app using create-react-app or vite
-2. Create App.js with simple input field and button to add tasks.
-3. Use useState to manage task.
+A **React Task Manager** application built step-by-step to demonstrate **progressive complexity** using the **latest React features** like `Hooks`, `Context`, `useReducer`, `Suspense`, `Lazy Loading`, and `Error Boundaries`.
 
-Step 2.
-Objective:
-1. Side Effects with useEffect
-2. Persist tasks to local storage
-3. Hooks covered: useEffect()
-Implementation:
-1. Use useEffect to load task from local storage onMount
-2. save tasks to localStorage whenever task changes.
+---
 
-Step 3.
-Objective:
-1. DOM references with useRef()
-2. Auto focus on the input when the app loads.
-3. Hooks covered: useRef()
+## 🚀 Goal of the Project
 
-Step 4:
-Objective:
-1. Performance Optimization with useMemo and useCallback.
-2. Only compute filtered task and memorise tasks.
-Hooks covered: useMemo(), useCallback()
+- Build a **Task Manager** with **functional components**.
+- Use **modern React Hooks** (`useState`, `useEffect`, `useRef`, `useMemo`, `useCallback`, `useContext`, `useReducer`).
+- Build **custom hooks** for reusability.
+- Implement **Error Boundaries**, **Suspense**, and **Lazy Loading** for production-ready structure.
 
-Step 5:
-Objective:
-1. Global state with useContext()
-2. Share task between components without prop-drilling
-Hooks covered: createContext(), useContext()
+---
 
-Step 6:
-Objective:
-1. State Machine with useReducer()
-2. Manage complex task actions like add, delete, toggle, clear with a reducer.
-3. Hooks covered: useReducer()
+## 🧩 Features
 
-Step 7:
-Objective:
-1. Custom Hooks
-2. Extract reusable logic for local storage sync or input handling
-Hooks covered: useLocalStorage(), useForm()
+1. Functional Components using ES6+ syntax
+2. State Management using:
+   - `useState()`
+   - `useReducer()`
+3. Side Effects with `useEffect()`
+4. DOM Manipulation with `useRef()`
+5. Performance Optimization with `useMemo()` & `useCallback()`
+6. Global State with `useContext()`
+7. Reusable Logic with Custom Hooks
+8. Error Handling with Error Boundaries
+9. Code Splitting with `React.lazy` and `Suspense`
 
-Step 8:
-Objective:
-1. Suspense, Lazy-loading and Error-Boundaries.
-2. Concepts covered: 
-a. Optimize load time
-b. Handle Component crashes.
-c. React.lazy
-d. Suspense
-e. Error-Boundaries (acting like a class component wrapper).
+---
 
-## Component API Lifecycle
-=========================================================================================================
-|| LifeCycle Class          || Hook in functional component                || When it runs             ||
-=========================================================================================================
-|| Constructor              || useState(), useReducer()                    || On Component init        ||
-|| componentDidMount        || useEffect(()={...},[])                      || After first render.      ||
-|| componentDidUpdate       || useEffect(()=>{...},[dep])                  || After Updates.           ||
-|| componentWillUnMount     || useEffect(()=>{return()=>{...}},[])         || Before unMount           ||
-|| getDerivedStateFromProps || Derive values manually in render            || Use logic in the body    ||
-|| shouldComponentUpdate    || react.memo() or useMemo() or useCallback()  || Optimization technique   ||
-|| componentDidCatch        || class based error boundary wrrapers         || Error Handling           ||
-|| getSnapshotBeforeUpdate  || useLayoutEffect() hook                      || Before DOM mutations     ||
-=========================================================================================================
+## 🛠️ Tech Stack
+
+- React (Vite or CRA)
+- JavaScript (ES6+)
+- HTML & CSS (Tailwind or basic)
+- Browser LocalStorage
+
+---
+
+## 🧱 Project Structure Plan
+
+### ✅ Step 1: Task Input + useState
+- Create basic input UI.
+- Add tasks using `useState()`.
+
+### ✅ Step 2: Persist Tasks + useEffect
+- Load tasks from `localStorage` on app mount.
+- Save tasks to `localStorage` on every update.
+
+### ✅ Step 3: DOM Focus + useRef
+- Auto-focus on task input when app loads.
+
+### ✅ Step 4: Performance Optimization
+- Use `useMemo()` to compute filtered tasks.
+- Use `useCallback()` for stable handlers.
+
+### ✅ Step 5: Global State + useContext
+- Share task data without prop drilling.
+
+### ✅ Step 6: useReducer for Complex State
+- Centralized logic for: `add`, `delete`, `toggle`, `clear`.
+
+### ✅ Step 7: Custom Hooks
+- `useLocalStorage()` – sync state with `localStorage`.
+- `useForm()` – handle form inputs.
+
+### ✅ Step 8: Suspense & Error Boundaries
+- Lazy load Task list.
+- Handle component errors gracefully using Error Boundaries.
+
+---
+
+## 🔁 Component Lifecycle Mapping
+
+| Lifecycle (Class)           | Hook Equivalent in Functional Component       | When it Runs               |
+|----------------------------|-----------------------------------------------|----------------------------|
+| `constructor`              | `useState()`, `useReducer()`                  | On Component Init          |
+| `componentDidMount`       | `useEffect(() => {...}, [])`                 | After First Render         |
+| `componentDidUpdate`      | `useEffect(() => {...}, [deps])`             | On Dependency Update       |
+| `componentWillUnmount`    | `useEffect(() => return () => {...}, [])`    | Before Component Unmount   |
+| `shouldComponentUpdate`   | `React.memo()`, `useMemo()`, `useCallback()` | Optimization Phase         |
+| `componentDidCatch`       | Error Boundary (class component)              | On Runtime Error           |
+| `getSnapshotBeforeUpdate` | `useLayoutEffect()`                           | Before DOM Updates         |
+
+---
